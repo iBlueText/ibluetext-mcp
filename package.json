@@ -1,0 +1,52 @@
+{
+  "name": "ibluetext-mcp",
+  "version": "0.3.0",
+  "description": "MCP server for iBlueText: send iMessage, SMS and WhatsApp (single messages and whole campaigns), check which numbers are iPhones or on WhatsApp, read conversations and lead scores, and run phone verification, as native tools for AI agents.",
+  "type": "module",
+  "bin": {
+    "ibluetext-mcp": "index.js"
+  },
+  "main": "index.js",
+  "author": "RG Loomis LLC",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.0",
+    "zod": "^3.23.8"
+  },
+  "homepage": "https://ibluetext.com",
+  "bugs": {
+    "url": "https://ibluetext.com/contact"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "imessage",
+    "sms",
+    "phone-verification",
+    "iphone-lookup",
+    "otp",
+    "2fa",
+    "ai-agent",
+    "claude",
+    "ibluetext",
+    "whatsapp",
+    "campaigns",
+    "crm",
+    "lead-score"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibluetext/ibluetext-mcp.git"
+  },
+  "mcpName": "com.ibluetext/ibluetext"
+}
