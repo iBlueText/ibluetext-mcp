@@ -1,5 +1,7 @@
 # iBlueText MCP server
 
+[![M8ven Verified](https://m8ven.ai/badge/mcp/ibluetext/ibluetext-mcp?variant=verified)](https://m8ven.ai/mcp/ibluetext/ibluetext-mcp?s=readme)
+
 Text your customers from your AI assistant. [iBlueText](https://ibluetext.com) sends real blue-bubble **iMessage**, **SMS** and **WhatsApp** from a business's own dedicated phone number, and checks which numbers are iPhones. This MCP server gives Claude, ChatGPT, Cursor and any other MCP client native tools for it: send one message or a whole campaign, read replies and lead scores, manage contacts, sequences and quick answers, and run iPhone / WhatsApp lookups.
 
 There are two ways to connect.
@@ -56,7 +58,8 @@ The package adds SMS verification, verify-widget sites and reply webhooks to the
 - Paid actions return HTTP **402** when the account is out of credits or has no active line. The tool result is flagged `payment_required: true`; a person adds credits or a line in the iBlueText dashboard.
 - **Opt-outs** (STOP) and each line's daily new-contact limit always apply.
 - **WhatsApp** numbers warm up from 10 new conversations on day 1 to 300/day by day 21; someone who never replied gets at most 3 messages; under 15% replies over 7 days halves the daily limit. Open with a question like "Hey, is this {first_name}?".
-- Local dev: `IBT_API_KEY=sk-ibt-... node index.js` (MCP over stdio). `IBT_BASE` overrides the API base URL.
+- Local dev: `IBT_API_KEY=sk-ibt-... node index.js` (MCP over stdio). Tests: `npm test` (starts the server over stdio, no key or network needed).
+- **Security:** your API key is only ever sent to `https://ibluetext.com/api/v1` (the address is fixed in the code, not configurable). Every tool is annotated: reads are `readOnlyHint`, and tools that message a real person (send, campaign, WhatsApp, verify) are `destructiveHint` + `openWorldHint`, so clients can ask before they run.
 - REST API: <https://ibluetext.com/docs/> · OpenAPI: <https://ibluetext.com/openapi.json> · For AI agents: <https://ibluetext.com/llms.txt>
 
 ## Support
