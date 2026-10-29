@@ -1,6 +1,6 @@
 {
   "name": "ibluetext-mcp",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "MCP server for iBlueText: send iMessage, SMS and WhatsApp (single messages and whole campaigns), check which numbers are iPhones or on WhatsApp, read conversations and lead scores, and run phone verification, as native tools for AI agents.",
   "type": "module",
   "bin": {

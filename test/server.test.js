@@ -29,7 +29,7 @@ test('exposes all 30 tools, each with a description', () => {
 
 test('every tool has a title and read-only / destructive / idempotent / open-world hints', () => {
   for (const t of tools) {
-    assert.ok(t.title, `${t.name} has no title`);
+    assert.ok(t.annotations?.title, `${t.name} has no title`);
     for (const h of ['readOnlyHint', 'destructiveHint', 'idempotentHint', 'openWorldHint'])
       assert.equal(typeof t.annotations?.[h], 'boolean', `${t.name} is missing ${h}`);
   }
@@ -62,9 +62,37 @@ test('bad input is rejected before any network call', async () => {
 
 test('the API key can only be sent to ibluetext.com', () => {
   const src = readFileSync(entry, 'utf8');
-  assert.match(src, /const BASE = 'https:\/\/ibluetext\.com\/api\/v1';/);
   const envReads = [...src.matchAll(/process\.env\.(\w+)/g)].map((m) => m[1]);
   assert.deepEqual(envReads, ['IBT_API_KEY'], 'only the API key may come from the environment');
   const fetches = [...src.matchAll(/fetch\(([^,]+),/g)].map((m) => m[1].trim());
-  assert.deepEqual(fetches, ['BASE + path'], 'every request goes to BASE');
+  assert.deepEqual(fetches, ['`https://ibluetext.com/api/v1${path}`'], 'every request goes to ibluetext.com');
+});
+
+// every tool by name with what it is allowed to do (read / spend credits / message someone / change / overwrite)
+const EXPECTED = {
+  ibt_balance: 'read', ibt_lines: 'read', ibt_lookup: 'spend', ibt_lookup_status: 'read', ibt_wa_lookup: 'spend', ibt_wa_lookup_status: 'read',
+  ibt_send: 'send', ibt_send_status: 'read', ibt_react: 'message', ibt_campaign_create: 'send', ibt_campaigns: 'read', ibt_campaign_status: 'read',
+  ibt_campaign_pause: 'change', ibt_whatsapp_send: 'send', ibt_whatsapp_status: 'read', ibt_whatsapp_numbers: 'read',
+  ibt_conversations: 'read', ibt_conversation_ai: 'change', ibt_quick_answers: 'read', ibt_quick_answer_set: 'overwrite',
+  ibt_contact: 'read', ibt_contact_update: 'overwrite', ibt_contacts: 'read', ibt_sequences: 'read', ibt_sequence_enroll: 'message',
+  ibt_webhooks: 'read', ibt_webhooks_set: 'overwrite', ibt_verify_start: 'send', ibt_verify_check: 'change', ibt_create_site: 'change',
+};
+const KIND = {
+  read: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+  spend: { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
+  send: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
+  message: { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
+  change: { readOnlyHint: false, destructiveHint: false, openWorldHint: false },
+  overwrite: { readOnlyHint: false, destructiveHint: true, openWorldHint: false },
+};
+for (const [name, kind] of Object.entries(EXPECTED)) {
+  test(`${name} is annotated as ${kind}`, () => {
+    const t = tools.find((x) => x.name === name);
+    assert.ok(t, `${name} is not registered`);
+    for (const [h, v] of Object.entries(KIND[kind])) assert.equal(t.annotations[h], v, `${name}.${h}`);
+  });
+}
+
+test('no tools beyond the expected list', () => {
+  assert.deepEqual(tools.map((t) => t.name).sort(), Object.keys(EXPECTED).sort());
 });
