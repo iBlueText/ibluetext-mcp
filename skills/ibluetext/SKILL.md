@@ -5,10 +5,12 @@ description: Send iMessage, SMS and WhatsApp to customers, run text campaigns, c
 
 # iBlueText: business texting (iMessage, SMS, WhatsApp)
 
-iBlueText sends real blue-bubble iMessage (and SMS/RCS to Android, and WhatsApp) from the business's own dedicated number. Everything below works with the user's iBlueText API key or the hosted connector.
+iBlueText sends real blue-bubble iMessage (and SMS/RCS to Android, and WhatsApp) from a dedicated iBlueText number. Everything below works with the user's iBlueText API key or the hosted connector.
 
 ## Connect (pick one)
 - **MCP tools available?** If tools like `send_message` / `ibt_send` exist, use them.
+  - Hosted connector tools: `send_message`, `send_whatsapp`, `create_campaign`, `get_campaign`, `list_campaigns`, `pause_or_resume_campaign`, `check_iphones`, `get_iphone_check_results`, `list_conversations`, `get_contact`, `update_contact`, `list_sequences`, `enroll_in_sequence`, `list_quick_answers`, `save_quick_answer`, `react_to_message`, `get_message_status`, `set_conversation_ai`, `list_lines`, `get_balance`, `list_whatsapp_numbers`, `get_whatsapp_status`.
+  - Local package tools use the `ibt_` prefix (`ibt_send`, `ibt_campaign_create`, `ibt_lookup`, `ibt_conversations`, ...), plus SMS verification and reply webhooks.
 - **Hosted connector:** `https://ibluetext.com/mcp` (OAuth sign-in, no key). Claude: Settings › Connectors › Add custom connector.
 - **Local MCP:** `npx -y ibluetext-mcp` with env `IBT_API_KEY` (key from https://ibluetext.com/portal/integrations.php).
 - **Plain REST:** `Authorization: Bearer $IBT_API_KEY` against `https://ibluetext.com/api/v1`. Spec: https://ibluetext.com/openapi.json
@@ -39,5 +41,8 @@ curl -sS "https://ibluetext.com/api/v1/conversations?limit=50" -H "Authorization
 4. **HTTP 402 = a person must pay.** Tell the user to add credits or a line at https://ibluetext.com/portal/ — you can't pay for them.
 5. **Daily limits are normal.** Messages over a line's new-contact limit wait and send later; report `waiting`/`held`, don't retry.
 6. **WhatsApp:** open with a short question ("Hey, is this {first_name}?"). Numbers with low reply rates get slowed or banned.
+
+## No account yet?
+The user can start free at https://ibluetext.com (free lookups and trial texts, no card). To text from their own number they pick a plan: a fully hosted line, or self-hosted on their own Mac; WhatsApp can be added either way.
 
 More: https://ibluetext.com/ai-assistants · https://ibluetext.com/llms.txt · support russ@ibluetext.com
