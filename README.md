@@ -2,6 +2,8 @@
 
 [![M8ven Verified](https://m8ven.ai/badge/mcp/ibluetext-ibluetext-mcp-5z4op8?variant=verified&v=448ac3e5070936f83815313e4f4da418)](https://m8ven.ai/mcp/ibluetext-ibluetext-mcp-5z4op8?s=readme)
 
+[![iBlueText MCP server](https://mcprush.com/badge/ibluetext-mcp/card.svg)](https://mcprush.com/to/ibluetext-mcp?ref=badge)
+
 Text your customers from your AI assistant. [iBlueText](https://ibluetext.com) sends real blue-bubble **iMessage**, **SMS** and **WhatsApp** from a business's own dedicated phone number, and checks which numbers are iPhones. This MCP server gives Claude, ChatGPT, Cursor and any other MCP client native tools for it: send one message or a whole campaign, read replies and lead scores, manage contacts, sequences and quick answers, and run iPhone / WhatsApp lookups.
 
 There are two ways to connect.
