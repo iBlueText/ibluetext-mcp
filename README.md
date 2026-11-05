@@ -4,7 +4,7 @@
 
 [![iBlueText MCP server](https://mcprush.com/badge/ibluetext-mcp/card.svg)](https://mcprush.com/to/ibluetext-mcp?ref=badge)
 
-Text your customers from your AI assistant. [iBlueText](https://ibluetext.com) sends real blue-bubble **iMessage**, **SMS** and **WhatsApp** from a business's own dedicated phone number, and checks which numbers are iPhones. This MCP server gives Claude, ChatGPT, Cursor and any other MCP client native tools for it: send one message or a whole campaign, read replies and lead scores, manage contacts, sequences and quick answers, and run iPhone / WhatsApp lookups.
+Text your customers from your AI assistant. [iBlueText](https://ibluetext.com) sends real blue-bubble **iMessage**, **SMS** and **WhatsApp** from a dedicated iBlueText line, and checks which numbers are iPhones. This MCP server gives Claude, ChatGPT, Cursor and any other MCP client native tools for it: send one message or a whole campaign, read replies and lead scores, manage contacts, sequences and quick answers, and check which numbers are iPhones.
 
 There are two ways to connect.
 
@@ -18,7 +18,7 @@ Server URL: **`https://ibluetext.com/mcp`** (Streamable HTTP, OAuth sign-in)
 
 22 tools with plain verb names (`send_message`, `create_campaign`, `check_iphones`, `list_conversations`, ...). Full list and example prompts: <https://ibluetext.com/ai-assistants>
 
-## 2. Local package with an API key (developers, 30 tools)
+## 2. Local package with an API key (developers, 28 tools)
 
 1. Create an API key at <https://ibluetext.com/portal/integrations.php>
 2. Add this to your MCP client config (for example Claude Desktop `claude_desktop_config.json`):
@@ -42,7 +42,7 @@ The package adds SMS verification, verify-widget sites and reply webhooks to the
 ### Tools
 **Account:** `ibt_balance` · `ibt_lines`
 
-**Lookup:** `ibt_lookup` (which numbers are iPhones; waits for results) · `ibt_lookup_status` · `ibt_wa_lookup` / `ibt_wa_lookup_status` (beta: which numbers are on WhatsApp)
+**Lookup:** `ibt_lookup` (which numbers are iPhones; waits for results) · `ibt_lookup_status`
 
 **Send:** `ibt_send` (one iMessage/SMS; channel, attachments, effects, quote-reply, scheduling) · `ibt_send_status` · `ibt_react` (tapbacks)
 

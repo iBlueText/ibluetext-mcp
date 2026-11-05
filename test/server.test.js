@@ -22,8 +22,8 @@ test('reports the package version', () => {
   assert.equal(client.getServerVersion().version, pkg.version);
 });
 
-test('exposes all 30 tools, each with a description', () => {
-  assert.equal(tools.length, 30);
+test('exposes all 28 tools, each with a description', () => {
+  assert.equal(tools.length, 28);
   for (const t of tools) assert.ok(t.description?.length > 10, `${t.name} has no description`);
 });
 
@@ -70,7 +70,7 @@ test('the API key can only be sent to ibluetext.com', () => {
 
 // every tool by name with what it is allowed to do (read / spend credits / message someone / change / overwrite)
 const EXPECTED = {
-  ibt_balance: 'read', ibt_lines: 'read', ibt_lookup: 'spend', ibt_lookup_status: 'read', ibt_wa_lookup: 'spend', ibt_wa_lookup_status: 'read',
+  ibt_balance: 'read', ibt_lines: 'read', ibt_lookup: 'spend', ibt_lookup_status: 'read',
   ibt_send: 'send', ibt_send_status: 'read', ibt_react: 'message', ibt_campaign_create: 'send', ibt_campaigns: 'read', ibt_campaign_status: 'read',
   ibt_campaign_pause: 'change', ibt_whatsapp_send: 'send', ibt_whatsapp_status: 'read', ibt_whatsapp_numbers: 'read',
   ibt_conversations: 'read', ibt_conversation_ai: 'change', ibt_quick_answers: 'read', ibt_quick_answer_set: 'overwrite',

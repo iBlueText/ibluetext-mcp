@@ -2,6 +2,7 @@
 /* iBlueText MCP server — exposes the iBlueText REST API to AI agents as tools.
  * Auth: set IBT_API_KEY (create one at https://ibluetext.com/portal/integrations.php).
  * Run: IBT_API_KEY=ibt_... npx ibluetext-mcp  (or add to your MCP client config).
+ * 0.3.3 (2026-11-05): removed the WhatsApp lookup tools (that check is not open to customer accounts). 28 tools.
  * 0.3.2 (2026-10-29): annotations + API host written out literally on every call so scanners can read them.
  * 0.3.1 (2026-10-29): security hardening. API host is fixed to https://ibluetext.com (the key can only go there), MCP SDK 1.32 + zod 4.6
  *   (patched advisories), and every tool carries read-only / destructive / open-world annotations so clients know which ones need a confirm.
@@ -13,7 +14,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod';
 
 const KEY = process.env.IBT_API_KEY || '';
-const VERSION = '0.3.2';
+const VERSION = '0.3.3';
 
 async function api(method, path, body) {
   const r = await fetch(`https://ibluetext.com/api/v1${path}`, {
@@ -57,11 +58,6 @@ server.tool('ibt_lookup', 'Check which phone numbers are on iMessage (iPhone). S
 
 server.tool('ibt_lookup_status', 'Get the status and results of an iPhone lookup job by id.', { id: z.number() }, { title: 'iPhone lookup results', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }, async ({ id }) => reply(await api('GET', `/lookup?id=${id}`)));
 
-server.tool('ibt_wa_lookup', 'BETA (enabled per account; 403 if not yet): check which numbers are on WhatsApp ($0.002/number; numbers WhatsApp gives no clear answer for come back null and are refunded). WhatsApp checks run slowly on purpose, so this returns the job id; poll with ibt_wa_lookup_status. also_imessage:true runs the iPhone lookup on the same list too.', {
-  numbers: z.array(z.string()), also_imessage: z.boolean().optional(),
-}, { title: 'Check WhatsApp numbers', readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true }, async ({ numbers, also_imessage }) => reply(await api('POST', '/wa_lookup', strip({ numbers, also_imessage }))));
-
-server.tool('ibt_wa_lookup_status', 'BETA: status and results of a WhatsApp lookup job (whatsapp: true | false | null per number).', { id: z.number() }, { title: 'WhatsApp lookup results', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }, async ({ id }) => reply(await api('GET', `/wa_lookup?id=${id}`)));
 
 // ---------- sending
 server.tool('ibt_send', 'Send one iMessage/SMS to one person (with optional attachments). Requires an active sending line — returns 402 with buy_url if none. channel auto = iMessage for iPhones, SMS for everyone else.', {
