@@ -43,6 +43,6 @@ curl -sS "https://ibluetext.com/api/v1/conversations?limit=50" -H "Authorization
 6. **WhatsApp:** open with a short question ("Hey, is this {first_name}?"). Numbers with low reply rates get slowed or banned.
 
 ## No account yet?
-The user can start free at https://ibluetext.com (free lookups and trial texts, no card). To text from their own number they pick a plan: a fully hosted line, or self-hosted on their own Mac; WhatsApp can be added either way.
+The user can start free at https://ibluetext.com (free lookups and trial texts, no card). To text from a dedicated number they pick a plan: a fully hosted line ($99/month plus a one-time setup fee) with a new number we run for them, or self-hosted from $29/month on their own Mac and number. WhatsApp can be added either way: $19/month per 5 numbers on their own phones, or a number we host from $49/month. iPhone lookups and verifications are $0.005 each.
 
 More: https://ibluetext.com/ai-assistants · https://ibluetext.com/llms.txt · support russ@ibluetext.com
