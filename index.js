@@ -2,6 +2,7 @@
 /* iBlueText MCP server — exposes the iBlueText REST API to AI agents as tools.
  * Auth: set IBT_API_KEY (create one at https://ibluetext.com/portal/integrations.php).
  * Run: IBT_API_KEY=ibt_... npx ibluetext-mcp  (or add to your MCP client config).
+ * 0.3.4 (2026-11-06): AI voice notes: voice / voice_text on ibt_send, voice / voice_intro on ibt_campaign_create, voice on ibt_whatsapp_send.
  * 0.3.3 (2026-11-05): removed the WhatsApp lookup tools (that check is not open to customer accounts). 28 tools.
  * 0.3.2 (2026-10-29): annotations + API host written out literally on every call so scanners can read them.
  * 0.3.1 (2026-10-29): security hardening. API host is fixed to https://ibluetext.com (the key can only go there), MCP SDK 1.32 + zod 4.6
@@ -14,7 +15,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod';
 
 const KEY = process.env.IBT_API_KEY || '';
-const VERSION = '0.3.3';
+const VERSION = '0.3.4';
 
 async function api(method, path, body) {
   const r = await fetch(`https://ibluetext.com/api/v1${path}`, {
@@ -70,6 +71,8 @@ server.tool('ibt_send', 'Send one iMessage/SMS to one person (with optional atta
   effect: z.string().optional().describe('iMessage effect, e.g. confetti, balloons, slam, invisible_ink.'),
   reply_to: z.string().optional().describe('Quote-reply to an inbound message_id like "in_3909".'),
   send_at: z.string().optional().describe('Schedule (ISO 8601, up to 30 days ahead).'),
+  voice: z.boolean().optional().describe('Send the body as an AI voice note (real iMessage voice memo; playable link on Android lines) in the account\'s chosen or cloned voice. Up to 600 characters. Mood tags like [laughs], [whispers], [excited], [warmly] are voice directions only.'),
+  voice_text: z.string().optional().describe('Words to speak as a voice note; body (optional) then goes along as text.'),
 }, { title: 'Send iMessage / SMS', readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true }, async ({ media_urls, ...a }) => reply(await api('POST', '/send', strip({ ...a, media: media_urls?.map((url) => ({ url })) }))));
 
 server.tool('ibt_send_status', 'Status of a sent iMessage/SMS by id (queued, sent, delivered, failed + error).', { id: z.number() }, { title: 'Message status', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }, async ({ id }) => reply(await api('GET', `/send?id=${id}`)));
@@ -88,6 +91,8 @@ server.tool('ibt_campaign_create', 'Send one message to a whole list, exactly li
   wa_session_id: z.number().optional().describe('WhatsApp: send from this one number (see ibt_whatsapp_numbers).'),
   media_urls: z.array(z.string()).optional(),
   effect: z.string().optional(),
+  voice: z.boolean().optional().describe('Send as an AI voice note. {first_name} is spoken, so each person hears their own name; no merge fields = one note for everyone. Works on WhatsApp too. Mood tags like [laughs], [whispers], [excited], [warmly] are voice directions only.'),
+  voice_intro: z.string().optional().describe('Short text sent with the voice note (default "🎤 Voice note for you"). iMessage/SMS only.'),
 }, { title: 'Send a campaign', readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true }, async ({ media_urls, ...a }) => reply(await api('POST', '/campaigns', strip({ ...a, media: media_urls?.map((url) => ({ url })) }))));
 
 server.tool('ibt_campaigns', 'List recent campaigns (id, name, channel, status, total, sent, replies).', { limit: z.number().optional() }, { title: 'List campaigns', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }, async ({ limit }) => reply(await api('GET', `/campaigns${qs({ limit })}`)));
@@ -99,6 +104,7 @@ server.tool('ibt_campaign_pause', 'Pause or resume a campaign.', { id: z.number(
 // ---------- WhatsApp
 server.tool('ibt_whatsapp_send', 'Send a WhatsApp message from the account\'s linked or hosted WhatsApp number. Over the number\'s daily new-contact limit it waits (held_until) and sends automatically. Someone who never replied gets at most 3 messages: the 3rd returns a "warning", a 4th is refused (code no_reply_limit) until they reply.', {
   to: z.string(), body: z.string().optional(), media_url: z.string().optional().describe('One file per message (≤16 MB); body becomes the caption.'), session_id: z.number().optional(),
+  voice: z.boolean().optional().describe('Send the body as a WhatsApp voice note spoken in the account\'s voice.'),
 }, { title: 'Send WhatsApp', readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true }, async (a) => reply(await api('POST', '/whatsapp', strip(a))));
 
 server.tool('ibt_whatsapp_status', 'Status of a WhatsApp message by id (queued, sent, delivered, read, failed); held_until/held_reason while it waits on the warm-up limit.', { id: z.number() }, { title: 'WhatsApp message status', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }, async ({ id }) => reply(await api('GET', `/whatsapp?id=${id}`)));
