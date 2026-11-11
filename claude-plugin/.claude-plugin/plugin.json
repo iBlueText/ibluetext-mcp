@@ -10,6 +10,9 @@
   },
   "homepage": "https://ibluetext.com/ai-assistants",
   "privacyPolicyUrl": "https://ibluetext.com/privacy.php",
+  "termsOfServiceUrl": "https://ibluetext.com/terms.php",
+  "supportUrl": "https://ibluetext.com/contact.php",
+  "documentationUrl": "https://ibluetext.com/docs/",
   "repository": "https://github.com/iBlueText/ibluetext-mcp",
   "license": "MIT",
   "keywords": [
