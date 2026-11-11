@@ -1,0 +1,24 @@
+{
+  "name": "ibluetext",
+  "displayName": "iBlueText",
+  "version": "1.0.0",
+  "description": "Text customers by iMessage, SMS and WhatsApp from Claude: send messages and campaigns, read replies, and check which numbers are iPhones, with iBlueText.",
+  "author": {
+    "name": "RG Loomis LLC",
+    "email": "russ@ibluetext.com",
+    "url": "https://ibluetext.com"
+  },
+  "homepage": "https://ibluetext.com/ai-assistants",
+  "privacyPolicyUrl": "https://ibluetext.com/privacy.php",
+  "repository": "https://github.com/iBlueText/ibluetext-mcp",
+  "license": "MIT",
+  "keywords": [
+    "imessage",
+    "sms",
+    "whatsapp",
+    "texting",
+    "crm",
+    "campaigns",
+    "iphone-lookup"
+  ]
+}

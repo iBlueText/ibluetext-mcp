@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "ibluetext": {
+      "type": "http",
+      "url": "https://ibluetext.com/mcp"
+    }
+  }
+}
