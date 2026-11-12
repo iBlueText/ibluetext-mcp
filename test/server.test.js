@@ -22,8 +22,8 @@ test('reports the package version', () => {
   assert.equal(client.getServerVersion().version, pkg.version);
 });
 
-test('exposes all 28 tools, each with a description', () => {
-  assert.equal(tools.length, 28);
+test('exposes all 30 tools, each with a description', () => {
+  assert.equal(tools.length, 30);
   for (const t of tools) assert.ok(t.description?.length > 10, `${t.name} has no description`);
 });
 
@@ -74,7 +74,7 @@ const EXPECTED = {
   ibt_send: 'send', ibt_send_status: 'read', ibt_react: 'message', ibt_campaign_create: 'send', ibt_campaigns: 'read', ibt_campaign_status: 'read',
   ibt_campaign_pause: 'change', ibt_whatsapp_send: 'send', ibt_whatsapp_status: 'read', ibt_whatsapp_numbers: 'read',
   ibt_conversations: 'read', ibt_conversation_ai: 'change', ibt_quick_answers: 'read', ibt_quick_answer_set: 'overwrite',
-  ibt_contact: 'read', ibt_contact_update: 'overwrite', ibt_contacts: 'read', ibt_sequences: 'read', ibt_sequence_enroll: 'message',
+  ibt_contact: 'read', ibt_contact_update: 'overwrite', ibt_contacts: 'read', ibt_contacts_find: 'read', ibt_sequences: 'read', ibt_sequence_create: 'change', ibt_sequence_enroll: 'message',
   ibt_webhooks: 'read', ibt_webhooks_set: 'overwrite', ibt_verify_start: 'send', ibt_verify_check: 'change', ibt_create_site: 'change',
 };
 const KIND = {

@@ -18,9 +18,9 @@ Server URL: **`https://ibluetext.com/mcp`** (Streamable HTTP, OAuth sign-in)
 - **ChatGPT:** Settings › Apps (Developer mode) › create an app with the URL, then sign in and Allow.
 - **Any remote-MCP client:** use the URL; the client discovers OAuth from `/.well-known/oauth-protected-resource`.
 
-22 tools with plain verb names (`send_message`, `create_campaign`, `check_iphones`, `list_conversations`, ...). Full list and example prompts: <https://ibluetext.com/ai-assistants>
+24 tools with plain verb names (`send_message`, `create_campaign`, `check_iphones`, `list_conversations`, ...). Full list and example prompts: <https://ibluetext.com/ai-assistants>
 
-## 2. Local package with an API key (developers, 28 tools)
+## 2. Local package with an API key (developers, 30 tools)
 
 1. Create an API key at <https://ibluetext.com/portal/integrations.php>
 2. Add this to your MCP client config (for example Claude Desktop `claude_desktop_config.json`):

@@ -2,6 +2,7 @@
 /* iBlueText MCP server — exposes the iBlueText REST API to AI agents as tools.
  * Auth: set IBT_API_KEY (create one at https://ibluetext.com/portal/integrations.php).
  * Run: IBT_API_KEY=ibt_... npx ibluetext-mcp  (or add to your MCP client config).
+ * 0.4.0 (2026-11-12): ibt_contacts_find (by tag / search / lead tier) and ibt_sequence_create (timed steps, optional start-on-tag). 30 tools.
  * 0.3.4 (2026-11-06): AI voice notes: voice / voice_text on ibt_send, voice / voice_intro on ibt_campaign_create, voice on ibt_whatsapp_send.
  * 0.3.3 (2026-11-05): removed the WhatsApp lookup tools (that check is not open to customer accounts). 28 tools.
  * 0.3.2 (2026-10-29): annotations + API host written out literally on every call so scanners can read them.
@@ -15,7 +16,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod';
 
 const KEY = process.env.IBT_API_KEY || '';
-const VERSION = '0.3.4';
+const VERSION = '0.4.0';
 
 async function api(method, path, body) {
   const r = await fetch(`https://ibluetext.com/api/v1${path}`, {
@@ -137,11 +138,19 @@ server.tool('ibt_contacts', 'Pull widget-verified contacts (phone, name, email, 
   since: z.number().optional(), limit: z.number().optional(),
 }, { title: 'List verified contacts', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }, async ({ since, limit }) => reply(await api('GET', `/contacts?since=${since || 0}&limit=${limit || 200}`)));
 
+server.tool('ibt_contacts_find', 'Find contacts, newest activity first: everyone with a tag (tag), a search by name, company, email, part of a tag or 4+ digits of a phone number (search), or a lead tier (tier: hot, warm, cold, dead). Each result has fields, tags, opt-out, last activity and lead score. Up to 100 per call; more:true means there are others.', {
+  tag: z.string().optional(), search: z.string().optional(), tier: z.enum(['hot', 'warm', 'cold', 'dead']).optional(), limit: z.number().optional(),
+}, { title: 'Find contacts', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }, async ({ tag, search, tier, limit }) => reply(await api('GET', `/contacts${qs({ list: 1, tag, search, tier, limit })}`)));
+
 server.tool('ibt_sequences', 'List sequences (drip follow-ups that stop when the contact replies).', {}, { title: 'List sequences', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }, async () => reply(await api('GET', '/sequences')));
 
 server.tool('ibt_sequence_enroll', 'Enroll a contact in a sequence (skips opted-out / already enrolled), or stop them with stop:true.', {
   sequence_id: z.number(), phone: z.string(), stop: z.boolean().optional(),
 }, { title: 'Enroll in or stop a sequence', readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true }, async (a) => reply(await api('POST', '/sequences', strip(a))));
+
+server.tool('ibt_sequence_create', 'Create a follow-up sequence: up to 10 texts sent automatically, each after a wait (minutes, hours or days after the previous one), stopping for a contact as soon as they reply or opt out. Steps can use {first_name} and other contact fields. start_on_tag (optional) starts it whenever that tag is added to a contact. Creating it texts no one; add people with ibt_sequence_enroll, the tag, or the Sequences page.', {
+  name: z.string(), steps: z.array(z.object({ wait: z.number(), unit: z.enum(['minutes', 'hours', 'days']), text: z.string() })).min(1).max(10), start_on_tag: z.string().optional(),
+}, { title: 'Create a sequence', readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }, async (a) => reply(await api('POST', '/sequences', { create: strip(a) })));
 
 // ---------- webhooks
 server.tool('ibt_webhooks', 'Read the reply-webhook setup: signing secret, account webhook, per-line webhooks, events.', {}, { title: 'Read webhook setup', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }, async () => reply(await api('GET', '/webhooks')));
