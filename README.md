@@ -10,12 +10,13 @@ Text your customers from your AI assistant. [iBlueText](https://ibluetext.com) s
 
 There are two ways to connect.
 
-## 1. Hosted (ChatGPT, Claude, no API key)
+## 1. Hosted (ChatGPT, Claude, Gemini CLI, no API key)
 
 Server URL: **`https://ibluetext.com/mcp`** (Streamable HTTP, OAuth sign-in)
 
 - **Claude:** Settings › Connectors › Add custom connector › paste the URL › Connect, then sign in to iBlueText and click Allow.
 - **ChatGPT:** Settings › Apps (Developer mode) › create an app with the URL, then sign in and Allow.
+- **Gemini CLI:** `gemini extensions install https://github.com/iBlueText/ibluetext-mcp`, then sign in to iBlueText the first time a tool runs (or `/mcp auth ibluetext`).
 - **Any remote-MCP client:** use the URL; the client discovers OAuth from `/.well-known/oauth-protected-resource`.
 
 24 tools with plain verb names (`send_message`, `create_campaign`, `check_iphones`, `list_conversations`, ...). Full list and example prompts: <https://ibluetext.com/ai-assistants>

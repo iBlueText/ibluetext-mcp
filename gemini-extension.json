@@ -1,0 +1,13 @@
+{
+  "name": "ibluetext",
+  "version": "1.0.0",
+  "description": "Text customers by iMessage, SMS and WhatsApp from Gemini: send messages and campaigns, read replies, and check which numbers are iPhones, with iBlueText. Sign in with your iBlueText account, no API key needed.",
+  "mcpServers": {
+    "ibluetext": {
+      "type": "http",
+      "url": "https://ibluetext.com/mcp",
+      "timeout": 60000
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}
