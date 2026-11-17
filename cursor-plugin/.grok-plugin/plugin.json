@@ -1,0 +1,23 @@
+{
+  "name": "ibluetext",
+  "displayName": "iBlueText",
+  "version": "1.0.0",
+  "description": "Text customers by iMessage, SMS and WhatsApp from Grok: send messages and campaigns, read replies, and check which numbers are iPhones, with iBlueText.",
+  "author": {
+    "name": "iBlueText",
+    "email": "russ@ibluetext.com",
+    "url": "https://ibluetext.com"
+  },
+  "homepage": "https://ibluetext.com/ai-assistants",
+  "repository": "https://github.com/iBlueText/ibluetext-mcp",
+  "license": "MIT",
+  "keywords": [
+    "ibluetext",
+    "imessage",
+    "blue bubble",
+    "sms",
+    "whatsapp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

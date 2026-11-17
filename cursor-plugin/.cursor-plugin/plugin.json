@@ -1,0 +1,34 @@
+{
+  "name": "ibluetext",
+  "displayName": "iBlueText",
+  "version": "1.0.0",
+  "description": "Text customers by iMessage, SMS and WhatsApp from your agent: send messages and campaigns, read replies, and check which numbers are iPhones, with iBlueText.",
+  "author": {
+    "name": "iBlueText",
+    "email": "russ@ibluetext.com",
+    "url": "https://ibluetext.com"
+  },
+  "homepage": "https://ibluetext.com/ai-assistants",
+  "repository": "https://github.com/iBlueText/ibluetext-mcp",
+  "license": "MIT",
+  "logo": "assets/logo.png",
+  "keywords": [
+    "ibluetext",
+    "imessage",
+    "blue bubble",
+    "sms",
+    "whatsapp",
+    "text messaging",
+    "iphone lookup"
+  ],
+  "category": "productivity",
+  "tags": [
+    "ibluetext",
+    "imessage",
+    "sms",
+    "whatsapp",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

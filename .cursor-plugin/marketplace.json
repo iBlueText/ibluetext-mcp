@@ -1,0 +1,23 @@
+{
+  "name": "ibluetext",
+  "owner": {
+    "name": "iBlueText"
+  },
+  "metadata": {
+    "description": "iBlueText plugin for Cursor and Grok Bot.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "ibluetext",
+      "source": "./cursor-plugin",
+      "description": "Text customers by iMessage, SMS and WhatsApp: send messages and campaigns, read replies, and check which numbers are iPhones.",
+      "homepage": "https://ibluetext.com/ai-assistants",
+      "repository": "https://github.com/iBlueText/ibluetext-mcp",
+      "license": "MIT",
+      "keywords": ["ibluetext", "imessage", "sms", "whatsapp"],
+      "category": "productivity",
+      "logo": "assets/logo.png"
+    }
+  ]
+}
